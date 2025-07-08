@@ -2,8 +2,8 @@ import React, { useState, useRef } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 
 function App() {
-  const [text, setText] = useState("Hello, world!");
-  const [fileName, setFileName] = useState("qrcode");
+  const [text, setText] = useState("");
+  const [fileName, setFileName] = useState("");
   const [format, setFormat] = useState("png");
   const qrRef = useRef(null);
 
@@ -58,12 +58,6 @@ function App() {
               <option value="webp">WEBP</option>
             </select>
             <div className="flex flex-col gap-2 mt-2">
-              <button
-                onClick={() => navigator.clipboard.writeText(text)}
-                className="btn btn-primary"
-              >
-                Copy Text
-              </button>
               <button onClick={downloadQRCode} className="btn btn-outline">
                 Download QR Code
               </button>
