@@ -29,36 +29,66 @@ function App() {
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col items-center justify-center p-6">
-        <div className="card w-full max-w-md bg-base-100 shadow-xl">
-          <div className="card-body space-y-4">
-            <input
-              type="text"
-              placeholder="Enter text or URL"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              className="input input-bordered w-full"
-            />
-            <div className="flex justify-center" ref={qrRef}>
+        <div className="card w-full max-w-md bg-base-100 shadow-xl p-6 rounded-lg">
+          <div className="card-body space-y-6">
+            {/* Text/URL Input */}
+            <div className="form-control w-full">
+              <label className="label">
+                <span className="label-text font-semibold">Text or URL</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Enter text or URL"
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                className="input input-bordered w-full"
+              />
+            </div>
+
+            {/* QR Code */}
+            <div
+              className="flex justify-center py-6 bg-base-200 rounded-lg border border-base-300 hover:shadow-lg transition-shadow"
+              ref={qrRef}
+            >
               <QRCodeCanvas value={text} size={200} />
             </div>
-            <input
-              type="text"
-              placeholder="Enter file name"
-              value={fileName}
-              onChange={(e) => setFileName(e.target.value)}
-              className="input input-bordered w-full"
-            />
-            <select
-              value={format}
-              onChange={(e) => setFormat(e.target.value)}
-              className="select select-bordered w-full"
-            >
-              <option value="png">PNG</option>
-              <option value="jpg">JPG</option>
-              <option value="webp">WEBP</option>
-            </select>
+
+            {/* File Name Input */}
+            <div className="form-control w-full">
+              <label className="label">
+                <span className="label-text font-semibold">File Name</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Enter file name"
+                value={fileName}
+                onChange={(e) => setFileName(e.target.value)}
+                className="input input-bordered w-full"
+              />
+            </div>
+
+            {/* Format Select */}
+            <div className="form-control w-full">
+              <label className="label">
+                <span className="label-text font-semibold">Format</span>
+              </label>
+              <select
+                value={format}
+                onChange={(e) => setFormat(e.target.value)}
+                className="select select-bordered w-full"
+              >
+                <option value="png">PNG</option>
+                <option value="jpg">JPG</option>
+                <option value="webp">WEBP</option>
+              </select>
+            </div>
+
+            {/* Download Button */}
             <div className="flex flex-col gap-2 mt-2">
-              <button onClick={downloadQRCode} className="btn btn-outline">
+              <button
+                onClick={downloadQRCode}
+                className="btn btn-accent btn-block transition-transform duration-150 hover:scale-105 hover:ring-2 hover:ring-accent/50"
+              >
                 Download QR Code
               </button>
             </div>
@@ -67,7 +97,7 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="p-4 text-center text-sm text-base-content bg-base-200">
+      <footer className="p-4 text-center text-lg font-medium text-base-content bg-base-200">
         Made with ❤️ & ☕ in Vancity!
       </footer>
     </div>
