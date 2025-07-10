@@ -1,11 +1,40 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 
 function App() {
   const [text, setText] = useState("");
   const [fileName, setFileName] = useState("");
   const [format, setFormat] = useState("png");
+  const [showOptions, setShowOptions] = useState(false);
+
+  // Customization states
+  const [qrTitle, setQrTitle] = useState("");
+  const [logoUrl, setLogoUrl] = useState("");
+  const [fgColor, setFgColor] = useState("#000000");
+  const [bgColor, setBgColor] = useState("#ffffff");
+
   const qrRef = useRef(null);
+  const dropdownRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setShowOptions(false);
+      }
+    }
+    if (showOptions) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showOptions]);
 
   const downloadQRCode = () => {
     const canvas = qrRef.current?.querySelector("canvas");
@@ -29,7 +58,82 @@ function App() {
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col items-center justify-center p-6">
-        <div className="card w-full max-w-md bg-base-100 shadow-xl p-6 rounded-lg">
+        <div className="card w-full max-w-md bg-base-100 shadow-xl p-6 rounded-lg relative">
+          {/* Dropdown menu button */}
+          <div className="absolute top-4 right-4 z-50" ref={dropdownRef}>
+            <button
+              tabIndex={0}
+              className="btn btn-sm btn-ghost"
+              onClick={() => setShowOptions((v) => !v)}
+            >
+              <svg
+                width="20"
+                height="20"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                className="inline-block"
+              >
+                <circle cx="10" cy="4" r="1.5" />
+                <circle cx="10" cy="10" r="1.5" />
+                <circle cx="10" cy="16" r="1.5" />
+              </svg>
+            </button>
+            {showOptions && (
+              <ul
+                tabIndex={0}
+                className="absolute right-0 mt-2 menu p-4 shadow bg-base-100 rounded-box w-72 space-y-3 z-50"
+              >
+                <li>
+                  <label className="label">
+                    <span className="label-text font-semibold">Title</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="input input-bordered w-full"
+                    placeholder="QR Title"
+                    value={qrTitle}
+                    onChange={(e) => setQrTitle(e.target.value)}
+                  />
+                </li>
+                <li>
+                  <label className="label">
+                    <span className="label-text font-semibold">Logo URL</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="input input-bordered w-full"
+                    placeholder="https://example.com/logo.png"
+                    value={logoUrl}
+                    onChange={(e) => setLogoUrl(e.target.value)}
+                  />
+                </li>
+                <li>
+                  <label className="label">
+                    <span className="label-text font-semibold">Marker Color</span>
+                  </label>
+                  <input
+                    type="color"
+                    className="w-10 h-8 p-0 border-none bg-transparent"
+                    value={fgColor}
+                    onChange={(e) => setFgColor(e.target.value)}
+                  />
+                </li>
+                <li>
+                  <label className="label">
+                    <span className="label-text font-semibold">Background Color</span>
+                  </label>
+                  <input
+                    type="color"
+                    className="w-10 h-8 p-0 border-none bg-transparent"
+                    value={bgColor}
+                    onChange={(e) => setBgColor(e.target.value)}
+                  />
+                </li>
+              </ul>
+            )}
+          </div>
+
           <div className="card-body space-y-6">
             {/* Text/URL Input */}
             <div className="form-control w-full">
@@ -46,11 +150,33 @@ function App() {
             </div>
 
             {/* QR Code */}
-            <div
-              className="flex justify-center py-6 bg-base-200 rounded-lg border border-base-300 hover:shadow-lg transition-shadow"
-              ref={qrRef}
-            >
-              <QRCodeCanvas value={text} size={200} />
+            <div className="flex flex-col items-center">
+              {qrTitle && (
+                <div className="mb-2 text-lg font-semibold text-center">
+                  {qrTitle}
+                </div>
+              )}
+              <div
+                className="flex justify-center py-6 bg-base-200 rounded-lg border border-base-300 hover:shadow-lg transition-shadow"
+                ref={qrRef}
+              >
+                <QRCodeCanvas
+                  value={text}
+                  size={200}
+                  fgColor={fgColor}
+                  bgColor={bgColor}
+                  imageSettings={
+                    logoUrl
+                      ? {
+                        src: logoUrl,
+                        height: 40,
+                        width: 40,
+                        excavate: true,
+                      }
+                      : undefined
+                  }
+                />
+              </div>
             </div>
 
             {/* File Name Input */}
