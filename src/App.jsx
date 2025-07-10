@@ -109,26 +109,34 @@ function App() {
                   />
                 </li>
                 <li>
-                  <label className="label">
+                  <label className="label mb-1">
                     <span className="label-text font-semibold">Marker Color</span>
                   </label>
-                  <input
-                    type="color"
-                    className="w-10 h-8 p-0 border-none bg-transparent"
-                    value={fgColor}
-                    onChange={(e) => setFgColor(e.target.value)}
-                  />
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="color"
+                      className="border border-base-300 rounded w-10 h-10 cursor-pointer bg-base-200"
+                      value={fgColor}
+                      onChange={(e) => setFgColor(e.target.value)}
+                      style={{ padding: 0 }}
+                    />
+                    <span className="text-xs">{fgColor}</span>
+                  </div>
                 </li>
                 <li>
-                  <label className="label">
+                  <label className="label mb-1">
                     <span className="label-text font-semibold">Background Color</span>
                   </label>
-                  <input
-                    type="color"
-                    className="w-10 h-8 p-0 border-none bg-transparent"
-                    value={bgColor}
-                    onChange={(e) => setBgColor(e.target.value)}
-                  />
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="color"
+                      className="border border-base-300 rounded w-10 h-10 cursor-pointer bg-base-200"
+                      value={bgColor}
+                      onChange={(e) => setBgColor(e.target.value)}
+                      style={{ padding: 0 }}
+                    />
+                    <span className="text-xs">{bgColor}</span>
+                  </div>
                 </li>
               </ul>
             )}
