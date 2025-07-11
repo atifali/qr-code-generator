@@ -146,7 +146,7 @@ function App() {
             {/* Text/URL Input */}
             <div className="form-control w-full">
               <label className="label">
-                <span className="label-text font-semibold">Text or URL</span>
+                <span className="label-text font-semibold pb-2">Text or URL</span>
               </label>
               <input
                 type="text"
@@ -190,7 +190,7 @@ function App() {
             {/* File Name Input */}
             <div className="form-control w-full">
               <label className="label">
-                <span className="label-text font-semibold">File Name</span>
+                <span className="label-text font-semibold pb-2">File Name</span>
               </label>
               <input
                 type="text"
@@ -204,7 +204,7 @@ function App() {
             {/* Format Select */}
             <div className="form-control w-full">
               <label className="label">
-                <span className="label-text font-semibold">Format</span>
+                <span className="label-text font-semibold pb-2">Format</span>
               </label>
               <select
                 value={format}
